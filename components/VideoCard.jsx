@@ -50,7 +50,7 @@ const VideoCard = ({
         </View>
 
         <View className="pt-2">
-          {creator == user.username ? (
+          {user != null && creator == user.username ? (
             <View className="flex flex-row">
               <TouchableOpacity
                 onPress={() => {
