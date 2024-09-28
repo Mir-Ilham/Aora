@@ -11,7 +11,8 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 const Home = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllPosts);
-  const { data: latestPosts, refetch: refetchLatest } = useAppwrite(getLatestPosts);
+  const { data: latestPosts, refetch: refetchLatest } =
+    useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -36,12 +37,13 @@ const Home = () => {
         renderItem={({ item }) => (
           <VideoCard
             title={item.title}
+            prompt={item.prompt}
             thumbnail={item.thumbnail}
             video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
             id={item.$id}
-            delHandler={onRefresh}
+            UDhandler={onRefresh}
           />
         )}
         ListHeaderComponent={() => (

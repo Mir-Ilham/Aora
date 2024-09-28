@@ -43,12 +43,13 @@ const Profile = () => {
         renderItem={({ item }) => (
           <VideoCard
             title={item.title}
+            prompt={item.prompt}
             thumbnail={item.thumbnail}
             video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
             id={item.$id}
-            delHandler={onRefresh}
+            UDhandler={onRefresh}
           />
         )}
         ListEmptyComponent={() => (
