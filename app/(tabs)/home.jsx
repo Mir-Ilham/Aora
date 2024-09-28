@@ -11,13 +11,14 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 const Home = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
   const { data: posts, refetch } = useAppwrite(getAllPosts);
-  const { data: latestPosts } = useAppwrite(getLatestPosts);
+  const { data: latestPosts, refetch: refetchLatest } = useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
+    await refetchLatest();
     setRefreshing(false);
   };
 
@@ -39,6 +40,8 @@ const Home = () => {
             video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
+            id={item.$id}
+            delHandler={onRefresh}
           />
         )}
         ListHeaderComponent={() => (
