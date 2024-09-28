@@ -2,9 +2,13 @@ import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
+import { deleteUserPosts } from "../lib/appwrite";
+import { useGlobalContext } from "../context/GlobalProvider";
+
 import { icons } from "../constants";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+const VideoCard = ({ title, creator, avatar, thumbnail, video, id, delHandler }) => {
+  const { user, setUser, setIsLogged } = useGlobalContext();
   const [play, setPlay] = useState(false);
 
   return (
@@ -36,7 +40,33 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
         </View>
 
         <View className="pt-2">
-          <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+          {creator == user.username ? (
+            <View className="flex flex-row">
+              <TouchableOpacity onPress={() => console.log("Pressed")}>
+                <Image
+                  source={icons.update}
+                  className="w-7 h-7"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  if (deleteUserPosts(id)) {
+                    delHandler();
+                  }
+                }}
+              >
+                <Image
+                  source={icons.del}
+                  className="w-7 h-7 ml-4"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       </View>
 
