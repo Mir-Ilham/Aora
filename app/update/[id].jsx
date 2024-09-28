@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Text,
-  Alert,
-  ScrollView,
-} from "react-native";
+import { Text, ScrollView } from "react-native";
 
 import { updateVideoPost } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
+
+import Toast from "react-native-simple-toast";
 
 const Update = () => {
   const [uploading, setUploading] = useState(false);
@@ -21,17 +19,18 @@ const Update = () => {
 
   const submit = async () => {
     if ((form.prompt === "") | (form.title === "")) {
-      return Alert.alert("Please provide all fields");
+      Toast.show("Please fill in all fields");
+      return;
     }
 
     setUploading(true);
     try {
       await updateVideoPost(form, id);
 
-      Alert.alert("Success", "Post updated successfully");
+      Toast.show("Post updated successfully");
       router.push("/home");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Toast.show("Error");
     } finally {
       setForm({
         title: "",

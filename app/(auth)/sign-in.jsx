@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
+import { View, Text, ScrollView, Dimensions, Image } from "react-native";
+import Toast from "react-native-simple-toast";
 
 import { images } from "../../constants";
 import { CustomButton, FormField } from "../../components";
@@ -18,7 +19,7 @@ const SignIn = () => {
 
   const submit = async () => {
     if (form.email === "" || form.password === "") {
-      Alert.alert("Error", "Please fill in all fields");
+      Toast.show("Please fill in all fields");
     }
 
     setSubmitting(true);
@@ -29,10 +30,10 @@ const SignIn = () => {
       setUser(result);
       setIsLogged(true);
 
-      Alert.alert("Success", "User signed in successfully");
+      Toast.show("User signed in successfully");
       router.replace("/home");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Toast.show("Error");
     } finally {
       setSubmitting(false);
     }

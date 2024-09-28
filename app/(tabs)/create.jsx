@@ -16,6 +16,7 @@ import { icons } from "../../constants";
 import { createVideoPost } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import Toast from "react-native-simple-toast";
 
 const Create = () => {
   const { user } = useGlobalContext();
@@ -63,7 +64,8 @@ const Create = () => {
       !form.thumbnail |
       !form.video
     ) {
-      return Alert.alert("Please provide all fields");
+      Toast.show("Please provide all fields");
+      return;
     }
 
     setUploading(true);
@@ -72,11 +74,10 @@ const Create = () => {
         ...form,
         userId: user.$id,
       });
-
-      Alert.alert("Success", "Post uploaded successfully");
+      Toast.show("Post uploaded successfully");
       router.push("/home");
     } catch (error) {
-      Alert.alert("Error", error.message);
+      Toast.show("Error");
     } finally {
       setForm({
         title: "",
