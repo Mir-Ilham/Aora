@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { router } from "expo-router";
 
-import { deleteUserPosts } from "../lib/appwrite";
+import { deleteUserPosts, updateVideoPost } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 import { icons } from "../constants";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video, id, delHandler }) => {
+const VideoCard = ({
+  title,
+  prompt,
+  creator,
+  avatar,
+  thumbnail,
+  video,
+  id,
+  UDhandler,
+}) => {
   const { user, setUser, setIsLogged } = useGlobalContext();
   const [play, setPlay] = useState(false);
 
@@ -42,7 +52,11 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video, id, delHandler })
         <View className="pt-2">
           {creator == user.username ? (
             <View className="flex flex-row">
-              <TouchableOpacity onPress={() => console.log("Pressed")}>
+              <TouchableOpacity
+                onPress={() => {
+                  router.push(`/update/${id}`);
+                }}
+              >
                 <Image
                   source={icons.update}
                   className="w-7 h-7"
@@ -53,7 +67,7 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video, id, delHandler })
               <TouchableOpacity
                 onPress={() => {
                   if (deleteUserPosts(id)) {
-                    delHandler();
+                    UDhandler();
                   }
                 }}
               >
